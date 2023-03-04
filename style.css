@@ -1,0 +1,392 @@
+:root {
+    --border:1px solid rgb(0, 0, 0);
+    --crimson:rgb(220, 20, 60);
+    --white: #fff;
+    --secondary-color: black;
+    --primary-color: white;
+    --cadetblue: cadetblue;
+    --box-shadow:0 5px 10px rgba(0,0,0,.1);
+    --black:#333;
+    --dark-bg:rgba(0,0,0,.7);
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url(Montserrat-VariableFont_wght.ttf);
+}
+
+.link.faded-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+a {
+    color: var(--secondary-color);
+    font-weight: bolder;
+    font-family: 'Montserrat';
+    word-break: break-word;
+}
+
+html{
+    background-color: orange;
+}
+
+.heading {
+    text-align: center;
+    font-size: medium;
+    margin-bottom: 20px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+/* .gallery .storam-container { 
+    columns: 3 350px;
+    column-gap: 15px;
+} */
+
+.gallery .storam-container ul li {
+    background-color: var(--primary-color);
+    color: white;
+    display: inline-block;
+    padding: 3px 10px 20px 21px;
+    border: 3px solid var(--secondary-color);
+    width: -webkit-fill-available;
+    overflow: hidden;
+    word-wrap: break-word;
+}
+
+
+.gallery .storam-container.active{
+    display: none;
+}
+
+.gallery .storam-container ul li span {
+    position: relative;
+    top: 9px;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: black;
+}
+
+.side-bar {
+    position: absolute;
+    top: 0; 
+    display: none;
+    width: 20%;
+    background-color: orange;
+    padding: 20px;
+    height: -webkit-fill-available;
+    overflow-y: scroll;
+}
+
+.side-bar::-webkit-scrollbar {
+    width: 5px;
+}
+
+.side-bar .box .title {
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: black;
+    text-transform: uppercase;
+}
+
+.title_gallery {
+    margin-right: 10px;
+    font-size: 20px;
+    color: black;
+}
+
+.side-bar .box22 .title {
+    font-size: 20px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    text-align: center;
+    color: black;
+}
+
+.gallery .box {
+    position: relative;
+    right: -40px;
+    width: fit-content;
+}
+
+.side-bar .box {
+    border-bottom: var(--border);
+    padding: 20px 0;
+    display: none;
+}
+
+.side-bar .box.active{
+    border-bottom: var(--border);
+    padding: 20px 0;
+    width: -webkit-fill-available;
+    display: block;
+}
+
+.gallery .box #search-box {
+    padding: 12px;
+    border-radius: 60px;
+    border: thick;
+    font-size: 14px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    text-transform: none;
+}
+
+.side-bar .box .btn {
+    border-radius: 20px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    cursor: pointer;
+    font-size: 17px;
+    text-align: center;
+    padding: 7%;
+    display: grid;
+    font-family: 'Montserrat';
+    text-transform: capitalize;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.category-btn {
+    border-radius: 20px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    cursor: pointer;
+    font-size: 17px;
+    text-align: center;
+    padding: 7%;
+    font-family: 'Montserrat';
+    text-transform: capitalize;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.category-btn.active {
+    background-color: var(--crimson);
+    color: var(--white);
+}
+
+.btn2 {
+    border-radius: 20px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    cursor: pointer;
+    font-size: 17px;
+    text-align: center;
+    padding: 7%;
+    font-family: 'Montserrat';
+    text-transform: capitalize;
+    vertical-align: top;
+}
+
+.side-bar .box .btn.active {
+    background-color: var(--crimson);
+    color: var(--white);
+}
+
+.side-bar .box .btn img {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+}
+
+#side-menu {
+    position: sticky;
+    top: 10px; left: 10px;
+    z-index: 1200;
+    height: fit-content;
+    width: fit-content;
+    padding: 2%;
+    line-height: 20px;
+    font-size: 20px;
+    color: var(--secondary-color);
+    background-color: var(--primary-color);
+    border: var(--border);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    cursor: pointer;
+    display: block;
+}
+
+#side-menu.active{
+    display: none;
+}
+
+#auth-button {
+    position: absolute;
+    top: 27px; right: 10px;
+    display: none;
+}
+
+#auth-button .signin {
+    cursor: pointer;
+    background-color: transparent;
+    display: none;
+}
+
+#auth-button .signout {
+    cursor: pointer;
+    background-color: transparent;
+    display: none;
+}
+
+h3.main_title {
+    position: fixed;
+    top: -1px;
+    right: 15px;
+    font-size: 25px;
+}
+
+#side-menu.fa-arrow-right {
+    left: 90%;
+    top: 4px;
+    position: relative;
+}
+
+.side-bar.active{
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    display: block;
+}
+
+#feedback-button {
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+#feedback-form {
+    position: relative;
+    bottom: 50px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: var(--primary-color);
+    z-index: 1;
+}
+
+#side-menu.hidden {
+    display: none!important;
+}
+
+#check {
+    z-index: 1000;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 60%;
+    max-height: 100%;
+}  
+
+textarea::placeholder {
+    color: black;
+}
+
+textarea:focus {
+    outline: none;
+}
+
+.gallery .storam-container {
+    padding: 0px 0px 10px;
+    text-align: left;
+}
+
+.gallery .box.active{
+    display: none;
+}
+
+.gallery .storam-container ul #signinfirst {
+    padding: 10px 67px;
+}
+
+#auth-button.active{
+    display: none;
+}
+
+.side-bar #signinfirst_box22.active{
+    left: 10%;
+    top: 45%;
+    position: relative;
+    display: block;
+}
+
+.side-bar #signinfirst_box22 {
+    display: none;
+}
+
+button{
+    border: none;
+    color: black;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    right: 10%;
+}
+
+@keyframes spinner {
+    to { transform: rotate(360deg); }
+}
+.loading::before {
+    content: "";
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-right: 0.5em;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spinner 1s linear infinite;
+}
+
+#loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 120px;
+    height: 120px;
+    margin: -76px 0 0 -76px;
+    border: 16px solid var(--primary-color);
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+  
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+  
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
