@@ -192,6 +192,9 @@ html{
         text-align: center;
         align-items: center;
     }
+    .lang {
+        display: flex;
+    }
     .side-bar {
         height: -webkit-fill-available !important;
     }
@@ -213,6 +216,9 @@ html{
     }
     .side-bar {
         height: -webkit-fill-available !important;
+    }
+    .lang {
+        display: flex;
     }
 }
 
