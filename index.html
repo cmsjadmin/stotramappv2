@@ -5,15 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
     <title>Stotram App Test</title>  
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@2.3.3/dist/purify.min.js"></script>
     <script src="https://kit.fontawesome.com/9a3deab300.js" crossorigin="anonymous"></script>
+    <script src="panchang.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css" id="theme">
     <script src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
 </head>
 <body>
 
-<div id="loader"></div>
+<div id="loader">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+</div>
+<div id="message" style="display: none;">Failed to load. Please check your internet connection and try again.</div>
 
-<div id="side-menu" class="fa-solid fa-house"></div>
+<div id="side-menu" class="fa-solid fa-house" style="display: none;"></div>
 
 <div class="side-bar">
     <div class="box22">
@@ -21,7 +29,7 @@
         <!-- <h3 class="title"><img src="chinmayalogo.jpg" style="border: none; width: 10%;"></h3> -->
         <h3 class="title">CMSJ Stotram</h3>
     </div>
-
+    
     <div class="box active">
         <h3 class="title">Language: </h3>
         <div class="lang">
@@ -31,40 +39,26 @@
     </div>
     
     <div class="box active">
-        <h3 class="title">Category: </h3>
+        <h3 class="title" id="category">Category: </h3>
         <div class="category" style="column-count: 2;">
-            <!-- <div class="btn" data-category="Bhagavad Geeta"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Krishna_tells_Gita_to_Arjuna.jpg" alt="logo">Bhagavad Geeta</div> -->
-            <!-- <div class="btn" data-category="Devi">Devi</div> -->
-            <!-- <div class="btn" data-category="Ganesha"><img src="Ganesha.jpg" alt="logo">Ganesha</div>
-            <div class="btn" data-category="Guru"><img src="Guru.jpg">Guru</div> -->
-            <!-- <div class="btn" data-category="Hanuman"><img src="https://upload.wikimedia.org/wikipedia/commons/1/16/Statue_of_Lord_Hanuman_at_Dharwad.jpg" alt="logo">Hanuman</div> -->
-            <!-- <div class="btn" data-category="Krishna"><img src="Krishna.jpg" alt="logo">Krishna</div> -->
-            <!-- <div class="btn" data-category="Rama"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Statue_of_Rama_in_Kangra_district_of_Himachal_Pradesh.jpg" alt="logo">Rama</div> -->
-            <!-- <div class="btn" data-category="Shiva"><img src="Lord Shiva.jpg" alt="logo">Shiva</div> -->
-            <!-- <div class="btn" data-category="Vishnu"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Lord_Vishnu_image.jpg" alt="logo">Vishnu</div> -->
+            
         </div>
     </div>
     
     <div class="box active" id="arrow-right">
         <div class="Results">
-            <div class="btn2">RESULTS</div>
+            <div class="btn2">GO!</div>
         </div>
     </div>
 
-    <div class="box active">
+    <div class="box active" style="border-bottom: orange;padding-bottom: 0;">
         <div class="reset">
-            <div class="btn2">RESET</div>
+            <div class="btn2" style="margin-bottom: 20px;">RESET</div>
         </div>
     </div>
-
-
-    <!-- <div class="box">
-        <h3 class="title" id="DM">Dark Mode:</h3>
-        <div class="btn" id="light">Light</div> <div class="btn" id="dark">Dark</div>
-    </div> -->
 
     <div class="box">
-        <h3 class="title">Dark Mode: </h3>
+        <h3 class="title">Appearance: </h3>
         <div class="DARKMODE">
             <div class="btn" data-DM="Light">Light</div>
             <div class="btn" data-DM="Dark">Dark</div>
@@ -72,35 +66,65 @@
     </div>
     
     <div class="box">
+        <h3 class="title">Panchang Calender: </h3>
+        <div class="category" style="column-count: 2;">
+            <div id='day' class="btn2" style="display: inline-table;"></div>
+            <div id='month' class="btn2" style="display: inline-table;"></div>
+            <div id=tithi class="btn2" style="display: inline-table;"></div>
+            <div id=nakshtra class="btn2" style="display: inline-table;"></div>
+            <div id=karna class="btn2" style="display: inline-table;"></div>
+            <div id=yoga class="btn2" style="display: inline-table;"></div>
+            <div id=raasi class="btn2" style="display: inline-table;"></div>
+            <div id=ayanamsa class="btn2" style="display: inline-table;"></div>
+        </div>
+    </div>
+    
+    <div class="box" id="calendar">
+        <h3 class="title">Events: </h3>
+        <div class="calendar" style="text-align: center;"></div>
+    </div>   
+
+    <div class="box" id="feedback">
         <button id="feedback-button">Give Feedback</button>
         <div id="feedback-form" style="display:none;">
             <h3 class="title" id="titlefeed" style="color: var(--secondary-color);position: relative;margin: 0.3%;">Feedback Form <button id="close-btn" style="background-color: var(--primary-color);color: var(--secondary-color);position: relative;top: 5%;right: 0%;"><i class="fas fa-times" aria-hidden="true"></i></button></h3>
-            <form id="feedback-form-content">
-                <textarea id="feedback-text" rows="5" placeholder="Enter your feedback here..." style="width: -webkit-fill-available;background-color: var(--primary-color);border-color: var(--secondary-color);color: var(--secondary-color);" spellcheck="false"></textarea>
+            <form action="https://sheetdb.io/api/v1/7f2pcml374ai1" method="post" id="feedback-form-content">
+                <input name="data[Name]" type="text" id="name-input" required placeholder="Your name..." style="width: -webkit-fill-available;background-color: var(--primary-color);border-color: var(--secondary-color);color: var(--secondary-color);" spellcheck="false">
+                <textarea name="data[Feedback]" id="feedback-text" required rows="5" placeholder="Enter your feedback here..." style="width: -webkit-fill-available;background-color: var(--primary-color);border-color: var(--secondary-color);color: var(--secondary-color);" spellcheck="false"></textarea>
                 <button type="submit" style="background-color: sandybrown;">Submit</button>
             </form>
         </div>        
+    </div>  
+
+    <div class="box" style="border-bottom: orange;padding-bottom: 0;">
+        <h3 class="title" style="display: block;text-align: center;">More Features Coming!</h3>
     </div>
 
-    <div class="box">
-        <h3 class="title" style="text-align: center;">More Features Coming!</h3>
-    </div>
+    <!-- <div class="box">
+        
+    </div> -->
     
 </div>
     
-<div class="gallery">
+<div class="gallery" style="display: none;">
     <div class="box">    
         <h3 class="title_gallery" id="id01">Search Stotram: </h3>
-        <input type="search" oninput="searchfiles()" placeholder="Search Stotram..." id="search-box">
+        <input type="search" autocomplete="off" oninput="searchfiles()" placeholder="Search Stotram..." id="search-box">
     </div>
     
     <div class="storam-container">
         <ul>
-            <div id="signinfirst">Please select Category and Language</div>
+            
         </ul>
-    </div>  
+    </div>
+
+    <div class="box" style="bottom: 11px;">    
+        <button id="previous-button" style="display: none;">Previous</button>
+        <button id="next-button" style="display: none;">Next</button>  
+    </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="script.js"></script>
 <script async defer src="https://apis.google.com/js/api.js"></script>
