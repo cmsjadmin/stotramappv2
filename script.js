@@ -12,7 +12,7 @@ const element = document.getElementById("id01");
 var gdapifiles;
 const CLIENT_ID = '834163430589-jh3iga52i4timnnr98m9h3haldpd4kc3.apps.googleusercontent.com'
 const CLIENT_SECRET = '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';
-const API_KEY = 'AIzaSyBLQtLrvXHtD8L2ff1Wj1IYsHOmbRKNYOQ';
+const API_KEY = 'AIzaSyDQWQ3k9RseWsE8aOEl2r5MnocolaTclSY';
 const SCOPES = 'https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/calendar.readonly';
 const DRIVE_ID = '1SQ8ekSOyQkJQPNchWY5efs3gZuCsou8D';
 
