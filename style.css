@@ -31,7 +31,7 @@
 .link.faded-out {
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
-  }
+}
 
 a {
     color: var(--secondary-color);
@@ -112,18 +112,6 @@ html{
     height: -webkit-fill-available;
     overflow-y: scroll;
     animation: pixel 1s ease-in-out;
-}
-
-.side-bar.ranimation {
-    position: fixed;
-    top: 0; 
-    display: none;
-    width: 20%;
-    background-color: orange;
-    padding: 20px;
-    height: -webkit-fill-available;
-    overflow-y: scroll;
-    animation: none !important;
 }
 
 @keyframes pixel {
@@ -300,7 +288,7 @@ html{
     overflow:hidden;
 }
   
-.trow {
+/* .trow {
     display: table-row;
 }
 .alignL, .alignR {
@@ -309,7 +297,7 @@ html{
 }
 .alignR {
     margin: 1px 1px;
-}
+} */
 
 #side-menu {
     position: sticky;
@@ -330,13 +318,6 @@ html{
 
 #side-menu.active{
     display: none;
-}
-
-h3.main_title {
-    position: fixed;
-    top: -1px;
-    right: 15px;
-    font-size: 25px;
 }
 
 #side-menu.fa-arrow-right {
@@ -381,10 +362,6 @@ h3.main_title {
 
 #side-menu.hidden {
     display: none!important;
-}
-
-#check {
-    z-index: 1000;
 }
 
 textarea {
@@ -435,10 +412,6 @@ button{
     right: 10%;
 }
 
-@keyframes spinner {
-    to { transform: rotate(360deg); }
-}
-
 #message {
     position: absolute;
     top: calc(57% + 60px);
@@ -484,6 +457,12 @@ th, td {
     align-items: center;
     height: 40px;
 }
+
+@media print {
+    * {
+        display: none !important;
+    }
+}  
   
   
 #loader > div {
@@ -491,7 +470,7 @@ th, td {
     width: 20px;
     height: 20px;
     margin: 10px;
-    background-color: var(--primary-color);
+    background-color: indianred;
     border-radius: 50%;
     animation: bounce 0.5s alternate infinite ease-in-out;
 }

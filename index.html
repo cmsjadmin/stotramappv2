@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-    <title>Stotram App Test</title>  
-    <script src="https://cdn.jsdelivr.net/npm/dompurify@2.3.3/dist/purify.min.js"></script>
-    <script src="https://kit.fontawesome.com/9a3deab300.js" crossorigin="anonymous"></script>
-    <script src="panchang.js"></script>
-    <link rel="stylesheet" type="text/css" href="style.css" id="theme">
-    <script src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+        <title>Stotram App</title>  
+        <script src="https://cdn.jsdelivr.net/npm/dompurify@2.3.3/dist/purify.min.js"></script>
+        <script src="https://kit.fontawesome.com/9a3deab300.js" crossorigin="anonymous"></script>
+        <script src="panchang.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" id="theme">
+        <script src="script.js" defer></script>
 </head>
 <body>
 
@@ -26,7 +26,6 @@
 <div class="side-bar">
     <div class="box22">
         <div id="settings" class="fa-solid fa-gear" style="left: 0.5%;position: relative;scale: 1.5;cursor: pointer;color: black;"></div>
-        <!-- <h3 class="title"><img src="chinmayalogo.jpg" style="border: none; width: 10%;"></h3> -->
         <h3 class="title">CMSJ Stotram</h3>
     </div>
     
@@ -51,7 +50,7 @@
         </div>
     </div>
 
-    <div class="box active" style="border-bottom: orange;padding-bottom: 0;">
+    <div class="box active" style="padding-bottom: 0;border-block-style: none;">
         <div class="reset">
             <div class="btn2" style="margin-bottom: 20px;">RESET</div>
         </div>
@@ -80,7 +79,7 @@
     </div>
     
     <div class="box" id="calendar">
-        <h3 class="title">Events: </h3>
+        <h3 class="title">Upcoming Events: </h3>
         <div class="calendar" style="text-align: center;"></div>
     </div>   
 
@@ -96,13 +95,9 @@
         </div>        
     </div>  
 
-    <div class="box" style="border-bottom: orange;padding-bottom: 0;">
+    <div class="box" style="border-bottom: var(--border);">
         <h3 class="title" style="display: block;text-align: center;">More Features Coming!</h3>
     </div>
-
-    <!-- <div class="box">
-        
-    </div> -->
     
 </div>
     
@@ -126,7 +121,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="script.js"></script>
 <script async defer src="https://apis.google.com/js/api.js"></script>
 </body>
 </html>
