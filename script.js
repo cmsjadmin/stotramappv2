@@ -303,20 +303,34 @@ function fetchcalendar() {
 
 function searchfiles() {
     count=0;
-    document.querySelector('#search-box').oninput = debounce(() => {
-        var searchvalue = document.querySelector('#search-box').value.toString().trim();
+    if(isAndroid){
+        var searchBox = document.querySelector('#search-box');
+        var searchvalue = searchBox.value.toString().trim();
+        element.innerHTML = `Search: ${searchvalue}`;
         dataCata = null;
         dataLang = null;
-        previousButton.style.display = "none";
-        nextButton.style.display = "none";
-        searchvalue = DOMPurify.sanitize(searchvalue);
-    
-        document.getElementById("loader").style.display = "block";
+
+        document.getElementById('loader').style.display = 'block';
 
         searchInFolder(searchvalue);
+
+        previousButton.style.display = 'none';
+        nextButton.style.display = 'none';
+    } else {
+        document.querySelector('#search-box').oninput = debounce(() => {
+            var searchvalue = document.querySelector('#search-box').value.toString().trim();
+            dataCata = null;
+            dataLang = null;
+            previousButton.style.display = "none";
+            nextButton.style.display = "none";
+            searchvalue = DOMPurify.sanitize(searchvalue);
         
-        element.innerHTML = `Search: ${searchvalue}`;
-    }, 200);
+            document.getElementById("loader").style.display = "block";
+    
+            searchInFolder(searchvalue);
+            element.innerHTML = `Search: ${searchvalue}`;
+        }, 200);
+    }
 }
 
 function searchInFolder(searchvalue) {
@@ -501,6 +515,18 @@ var isAndroid = /(android)/i.test(navigator.userAgent);
 
 if (isAndroid) {
     sideBar.style.paddingBottom  = '10px';
+    var searchBox = document.querySelector('#search-box');
+    var newSearchBox = document.createElement('input');
+    newSearchBox.type = 'search';
+    newSearchBox.autocomplete = 'off';
+    newSearchBox.placeholder = 'Search Stotram...';
+    newSearchBox.id = 'search-box';
+    newSearchBox.onkeydown = function() {
+        if(/Android/.test(navigator.userAgent) && event.keyCode === 13) {
+            searchfiles();
+        }
+    };
+    searchBox.parentNode.replaceChild(newSearchBox, searchBox);
 }
 
 // if (isIOS) {
