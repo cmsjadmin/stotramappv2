@@ -228,7 +228,7 @@ function debounce(fn, delay) {
     }
 }
 
-const calendarId = "c_59757dbd97e5be8d8516c4045538f251ad86d2110fa1d55aa721726c9d9af035@group.calendar.google.com";
+const calendarId = "cabbe9d8c3028cee5498078444a3dbdd8875970c4dc2e9f2b0b5f5559daa524f@group.calendar.google.com";
 const now = new Date().toISOString();
 const url = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?key=${API_KEY}`;
 
@@ -258,6 +258,7 @@ function fetchcalendar() {
             const eventDate = startDate.toLocaleDateString();
             const eventTime = startDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' - ' + endDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             var eventDescription = event.description;
+            console.log(eventDescription);
             if (eventDescription != null){
                 if (eventDescription.includes('RSVP')) {
                     if (eventDescription.includes('href')){
@@ -303,34 +304,20 @@ function fetchcalendar() {
 
 function searchfiles() {
     count=0;
-    if(isAndroid){
-        var searchBox = document.querySelector('#search-box');
-        var searchvalue = searchBox.value.toString().trim();
-        element.innerHTML = `Search: ${searchvalue}`;
+    document.querySelector('#search-box').oninput = debounce(() => {
+        var searchvalue = document.querySelector('#search-box').value.toString().trim();
         dataCata = null;
         dataLang = null;
-
-        document.getElementById('loader').style.display = 'block';
+        previousButton.style.display = "none";
+        nextButton.style.display = "none";
+        searchvalue = DOMPurify.sanitize(searchvalue);
+    
+        document.getElementById("loader").style.display = "block";
 
         searchInFolder(searchvalue);
-
-        previousButton.style.display = 'none';
-        nextButton.style.display = 'none';
-    } else {
-        document.querySelector('#search-box').oninput = debounce(() => {
-            var searchvalue = document.querySelector('#search-box').value.toString().trim();
-            dataCata = null;
-            dataLang = null;
-            previousButton.style.display = "none";
-            nextButton.style.display = "none";
-            searchvalue = DOMPurify.sanitize(searchvalue);
         
-            document.getElementById("loader").style.display = "block";
-    
-            searchInFolder(searchvalue);
-            element.innerHTML = `Search: ${searchvalue}`;
-        }, 200);
-    }
+        element.innerHTML = `Search: ${searchvalue}`;
+    }, 200);
 }
 
 function searchInFolder(searchvalue) {
@@ -395,6 +382,7 @@ let currentPage = 0;
 let currentFiles = [];
 
 resultmain.onclick = () => {
+    errorMessage.style.display = 'none';
     if (dataCata == null && dataLang == null) {
         sideBar.scrollTo({
             top: 0,
@@ -447,6 +435,7 @@ resultmain.onclick = () => {
         }));
         Promise.all(promises.map(p => p.then(r => r))).then(function(responses) {
             currentFiles = responses.reduce((allFiles, currentFiles) => allFiles.concat(currentFiles.result.files), []);
+            console.log(currentFiles);
             if(currentFiles.length > 5) {
                 currentPage = 0;
                 previousButton.style.display = "inline-block";
@@ -515,18 +504,6 @@ var isAndroid = /(android)/i.test(navigator.userAgent);
 
 if (isAndroid) {
     sideBar.style.paddingBottom  = '10px';
-    var searchBox = document.querySelector('#search-box');
-    var newSearchBox = document.createElement('input');
-    newSearchBox.type = 'search';
-    newSearchBox.autocomplete = 'off';
-    newSearchBox.placeholder = 'Search Stotram...';
-    newSearchBox.id = 'search-box';
-    newSearchBox.onkeydown = function() {
-        if(/Android/.test(navigator.userAgent) && event.keyCode === 13) {
-            searchfiles();
-        }
-    };
-    searchBox.parentNode.replaceChild(newSearchBox, searchBox);
 }
 
 // if (isIOS) {
