@@ -228,7 +228,7 @@ function debounce(fn, delay) {
     }
 }
 
-const calendarId = "cabbe9d8c3028cee5498078444a3dbdd8875970c4dc2e9f2b0b5f5559daa524f@group.calendar.google.com";
+const calendarId = "c_59757dbd97e5be8d8516c4045538f251ad86d2110fa1d55aa721726c9d9af035@group.calendar.google.com";
 const now = new Date().toISOString();
 const url = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?key=${API_KEY}`;
 
@@ -329,7 +329,19 @@ function searchInFolder(searchvalue) {
         langBtn.forEach(remove => remove.classList.remove('active'));
         categoryBtn2.forEach(remove => remove.classList.remove('active'));
         return;
+    } else {
+        if(searchvalue.length <= 2) {
+            clearList();
+            listContainer.innerHTML = '<div style="text-align: center;">Search for 3 or more letters</div>'
+            element.innerHTML = `Search Stotram: `;
+            document.getElementById("loader").style.display = "none";
+            langBtn.forEach(remove => remove.classList.remove('active'));
+            categoryBtn2.forEach(remove => remove.classList.remove('active'));
+            return;
+        }
     }
+
+
     var promises = []
     for (let [folderName, folderId] of map1.entries()) {
         promises.push(gapi.client.drive.files.list({
@@ -340,14 +352,7 @@ function searchInFolder(searchvalue) {
         }))
     }
     Promise.all(promises.map(p => p.then(r => r))).then(function(responses) {
-        if(searchvalue.length <= 2) {
-            clearList();
-            listContainer.innerHTML = '<div style="text-align: center;">Search for 3 or more letters</div>'
-            element.innerHTML = `Search Stotram: `;
-            document.getElementById("loader").style.display = "none";
-            langBtn.forEach(remove => remove.classList.remove('active'));
-            categoryBtn2.forEach(remove => remove.classList.remove('active'));
-        } else {
+        if(searchvalue.length > 2) {
             currentFiles = responses.reduce((allFiles, currentFiles) => allFiles.concat(currentFiles.result.files), []);
             if(currentFiles.length > 5) {
                 currentPage = 0;
@@ -587,6 +592,11 @@ xhr.onload = function() {
         document.getElementById("month").innerHTML="Month: Not Found";
     }
 };
+
+xhr.onerror = function() {
+    document.getElementById("month").innerHTML = "Month: Not Found";
+};
+
 xhr.send();
 
 const formatDate = (date) => date.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
