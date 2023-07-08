@@ -562,7 +562,7 @@ if (isAndroid) {
     let activeDAButton = localStorage.getItem('data-DA');
 
     if (activeDAButton == null) {
-        activeDAButton = "1";
+        activeDAButton = "0";
         localStorage.setItem('data-DA', activeDAButton);
     }
 
