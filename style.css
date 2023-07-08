@@ -109,7 +109,7 @@ html{
     width: 20%;
     background-color: orange;
     padding: 20px;
-    height: -webkit-fill-available;
+    height: 100svh;
     overflow-y: scroll;
     animation: pixel 1s ease-in-out;
 }
@@ -146,6 +146,7 @@ html{
     margin-bottom: 10px;
     text-align: center;
     color: black;
+    animation: fade-in 1s ease-in-out;
 }
 
 .gallery .box {
@@ -235,6 +236,7 @@ html{
     text-transform: capitalize;
     display: inline-block;
     vertical-align: top;
+    animation: fade-in 1.3s ease-in-out;
 }
 
 .category-btn {
@@ -271,6 +273,7 @@ html{
     font-family: 'Montserrat';
     text-transform: capitalize;
     vertical-align: top;
+    animation: fade-in 1s ease-in-out;
 }
 
 .side-bar .box .btn.active {
@@ -350,6 +353,7 @@ html{
     background-color: #007bff;
     color: white;
     cursor: pointer;
+    animation: fade-in 1s ease-in-out;
 }
 
 #feedback-form {

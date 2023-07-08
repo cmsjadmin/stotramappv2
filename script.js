@@ -32,6 +32,10 @@ function initClient(){
         loadClient().then(execute);
     }, function(error) {
         console.error(error);
+        loader.style.display = 'none';
+        errorMessage.style.top = 'calc(45%)';
+        errorMessage.innerHTML = 'Error Occurred';
+        errorMessage.style.display = 'block';
     });
 }
 
@@ -121,7 +125,7 @@ const timer = setTimeout(function() {
             loader.style.display = 'none';
         } else {
             loader.style.display = 'none';
-            errorMessage.style.top = 'calc(50%)';
+            errorMessage.style.top = 'calc(45%)';
             errorMessage.style.display = 'block';
         }
     }
@@ -153,59 +157,70 @@ function displayFiles(response, clear=true) {
 
 let categoryBtn2;
 
-function displayFolders(response, clear=true) {
+function displayFolders(response, clear = true) {
     // Handle the results here (response.result has the parsed body).
     var gdapifolders = response.result.files;
-    if(gdapifolders && gdapifolders.length > 0){
-        if(clear)
+    if (gdapifolders && gdapifolders.length > 0) {
+      if (clear)
         folderContainer.innerHTML = '';
+  
+      let promises = [];
+  
+      for (var i = 0; i < gdapifolders.length; i++) {
+        promises.push(
+          gapi.client.drive.files
+            .list({
+              includeItemsFromAllDrives: true,
+              supportsAllDrives: true,
+              q: `mimeType='image/jpeg' and "${gdapifolders[i].id}" in parents`,
+              fields: 'files(name, id)', // Include the id field
+            })
+            .then(function (response) {
+              if (
+                response &&
+                response.result &&
+                response.result.files.length > 0
+              ) {
+                const fileId = response.result.files[0].name;
+                return `<img src="${fileId}"/>`; // Use the uc export view URL format
+              } else {
+                return '';
+              }
+            })
+        );
 
-        let promises = [];
-        
+        folderContainer.innerHTML += `
+          <div data-category="${gdapifolders[i].name}" class="btn">${gdapifolders[i].name}</div>
+        `;
+  
+        map1.set(gdapifolders[i].name, gdapifolders[i].id);
+      }
+  
+      Promise.all(promises).then(function (imageTags) {
         for (var i = 0; i < gdapifolders.length; i++) {
-            promises.push(gapi.client.drive.files.list({
-                includeItemsFromAllDrives: true,
-                supportsAllDrives: true,
-                q: `mimeType='image/jpeg' and "${gdapifolders[i].id}" in parents`,
-                fields: 'files(name)'
-            }).then(function (response) {
-                if (response && response.result && response.result.files.length > 0) {
-                    return `<img src="${response.result.files[0].name}"/>`;
-                } else {
-                    return '';
-                }
-            }));
-            
-            folderContainer.innerHTML += `
-            <div data-category="${gdapifolders[i].name}" class="btn">${gdapifolders[i].name}</div>
-            `;
-            
-            map1.set(gdapifolders[i].name, gdapifolders[i].id);
-            }
-
-            Promise.all(promises).then(function(imageTags) {
-                for (var i = 0; i < gdapifolders.length; i++) {
-                    document.querySelector(`[data-category="${gdapifolders[i].name}"]`).innerHTML = `${imageTags[i]}${gdapifolders[i].name}`;
-                }
-            });                                                 
-            
-        categoryBtn2 = document.querySelectorAll('.category .btn');
-
-        categoryBtn2.forEach(btn =>{
-            btn.onclick = () => {
-                categoryBtn2.forEach(remove => remove.classList.remove('active'));
-                btn.classList.add('active');
-                dataCata = btn.getAttribute('data-category');
-                if(dataLang != null){
-                    scrollToArrow();
-                }
-            }
-        });
-
+          document.querySelector(
+            `[data-category="${gdapifolders[i].name}"]`
+          ).innerHTML = `${imageTags[i]}${gdapifolders[i].name}`;
+        }
+      });
+  
+      categoryBtn2 = document.querySelectorAll('.category .btn');
+  
+      categoryBtn2.forEach((btn) => {
+        btn.onclick = () => {
+          categoryBtn2.forEach((remove) => remove.classList.remove('active'));
+          btn.classList.add('active');
+          dataCata = btn.getAttribute('data-category');
+          if (dataLang != null) {
+            scrollToArrow();
+          }
+        };
+      });
     } else {
-        folderContainer.innerHTML = '<div style="text-align: center;color: black;">No Categories Found!</div>'
+      folderContainer.innerHTML =
+        '<div style="text-align: center;color: black;">No Categories Found!</div>';
     }
-}
+}  
 
 function scrollToArrow() {
     document.getElementById("arrow-right").scrollIntoView({ behavior: 'smooth' });
@@ -258,7 +273,6 @@ function fetchcalendar() {
             const eventDate = startDate.toLocaleDateString();
             const eventTime = startDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' - ' + endDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             var eventDescription = event.description;
-            console.log(eventDescription);
             if (eventDescription != null){
                 if (eventDescription.includes('RSVP')) {
                     if (eventDescription.includes('href')){
@@ -508,7 +522,72 @@ var isWindows = navigator.userAgent.indexOf('Windows') > -1;
 var isAndroid = /(android)/i.test(navigator.userAgent);
 
 if (isAndroid) {
-    sideBar.style.paddingBottom  = '10px';
+    sideBar.style.paddingBottom = '10px';
+    // Create a new h3 element
+    var newTitle = document.createElement("h3");
+    newTitle.className = "title";
+    newTitle.textContent = "Open Drive App:";
+
+    // Create a new div element
+    var newDiv = document.createElement("div");
+    newDiv.className = "Drive"
+
+    // Create the first button element
+    var yes = document.createElement("div");
+    yes.className = "btn";
+    yes.style.animation = "fade-in 1s ease-in-out !important;";
+    yes.textContent = "Yes";
+    yes.setAttribute("data-da", "1");
+
+    // Create the second button element
+    var no = document.createElement("div");
+    no.className = "btn";
+    no.style.animation = "fade-in 1s ease-in-out !important;";
+    no.textContent = "No";
+    no.setAttribute("data-da", "0");
+
+    // Append the buttons to the new div
+    newDiv.appendChild(yes);
+    newDiv.appendChild(no);
+
+    // Find the parent container element
+    var parentContainer = document.getElementById("appearance");
+
+    // Append the new title and div to the parent container
+    parentContainer.appendChild(newTitle);
+    parentContainer.appendChild(newDiv);
+
+    let driveButton = document.querySelectorAll('.Drive .btn');
+
+    let activeDAButton = localStorage.getItem('data-DA');
+
+    if (activeDAButton == null) {
+        activeDAButton = "1";
+        localStorage.setItem('data-DA', activeDAButton);
+    }
+
+    driveButton.forEach(btn => {
+        if (btn.getAttribute('data-DA') == activeDAButton) {
+            btn.classList.add("active");
+        } else {
+            btn.classList.remove("active");
+        }
+    });
+
+    driveButton.forEach(btn => {
+        btn.onclick = () => {
+            driveButton.forEach(remove => remove.classList.remove('active'));
+            btn.classList.add("active");
+            dataDA = btn.getAttribute('data-da');
+            if (dataDA == "0") {
+                localStorage.setItem("data-DA", "0");
+            } else if (dataDA == "1") {
+                localStorage.setItem("data-DA", "1");
+            } else {
+                localStorage.setItem("data-DA", "1");
+            }
+        }
+    });
 }
 
 // if (isIOS) {
@@ -577,7 +656,7 @@ langBtn.forEach(btn =>{
 
 var t= new Date();
 var xhr = new XMLHttpRequest();
-xhr.open('GET', 'https://api.allorigins.win/raw?url=https://www.drikpanchang.com/dp-api/panchangam/dp-panchangam.php', true);
+xhr.open('GET', 'https://corsproxy.io/?https%3A%2F%2Fwww.drikpanchang.com%2Fdp-api%2Fpanchangam%2Fdp-panchangam.php', true);
 xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 xhr.onload = function() {
     if (xhr.status >= 200 && xhr.status < 400) {
@@ -675,7 +754,7 @@ let darkMODEButton = document.querySelectorAll('.DARKMODE .btn');
 
 let activeDMButton = localStorage.getItem('data-DM');
 if (activeDMButton == null) {
-  activeDMButton = "Light";
+  activeDMButton = "1";
   localStorage.setItem('data-DM', activeDMButton);
 }
 
@@ -683,7 +762,7 @@ if (activeDMButton == null) {
 darkMODEButton.forEach(btn => {
     if (btn.getAttribute('data-DM') == activeDMButton) {
       btn.classList.add("active");
-      if (activeDMButton == "Dark") {
+      if (activeDMButton == "0") {
         root.style.setProperty('--primary-color', 'black');
         root.style.setProperty('--area-placeholder', 'white');
         root.style.setProperty('--secondary-color', 'white');
@@ -703,21 +782,21 @@ darkMODEButton.forEach(btn => {
     darkMODEButton.forEach(remove => remove.classList.remove('active'));
     btn.classList.add("active");
     dataDM = btn.getAttribute('data-DM');
-    if (dataDM == "Dark") {
+    if (dataDM == "0") {
         root.style.setProperty('--primary-color', 'black');
         root.style.setProperty('--area-placeholder', 'white');
         root.style.setProperty('--secondary-color', 'white');
-        localStorage.setItem("data-DM", "Dark");
-    } else if (dataDM == "Light") {
+        localStorage.setItem("data-DM", "0");
+    } else if (dataDM == "1") {
         root.style.setProperty('--primary-color', 'white');
         root.style.setProperty('--area-placeholder', 'black');
         root.style.setProperty('--secondary-color', 'black');
-        localStorage.setItem("data-DM", "Light");
+        localStorage.setItem("data-DM", "1");
     } else {
         root.style.setProperty('--primary-color', 'white');
         root.style.setProperty('--area-placeholder', 'black');
         root.style.setProperty('--secondary-color', 'black');
-        localStorage.setItem("data-DM", "Light");
+        localStorage.setItem("data-DM", "1");
     }
   }
 });
